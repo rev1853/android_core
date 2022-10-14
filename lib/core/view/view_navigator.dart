@@ -1,9 +1,9 @@
 part of '../../android_core.dart';
 
 abstract class ViewNavigator extends StatelessWidget {
-  GlobalKey<NavigatorState> navigatorKey;
-  String initialRoute;
-  List<ViewRoute> routes;
+  abstract GlobalKey<NavigatorState> navigatorKey;
+  abstract String initialRoute;
+  abstract List<ViewRoute> routes;
 
   // current arguments and settings
   Map _arguments = {};
