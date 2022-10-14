@@ -5,8 +5,6 @@ abstract class ViewNavigator extends StatelessWidget {
   String initialRoute;
   List<ViewRoute> routes;
 
-  ViewNavigator({required this.navigatorKey, this.routes = const [], this.initialRoute = '/'});
-
   // current arguments and settings
   Map _arguments = {};
   Map get arguments => _arguments;
@@ -18,10 +16,7 @@ abstract class ViewNavigator extends StatelessWidget {
       initialRoute: initialRoute,
       onGenerateRoute: (routeSettings) {
         _arguments = routeSettings.arguments == null ? {} : routeSettings.arguments as Map;
-        if (routes.any((e) => e.routeName == routeSettings.name)) {
-          return routes.firstWhere((element) => element.routeName == routeSettings.name);
-        }
-        return null;
+        return routes.firstWhereOrNull((element) => element.routeName == routeSettings.name);
       },
     );
   }
