@@ -1,9 +1,9 @@
 part of '../../android_core.dart';
 
-abstract class View<T extends CoreController> extends StatelessWidget {
+abstract class CoreView<T extends CoreController> extends StatelessWidget {
   Map<dynamic, dynamic>? arguments;
 
-  View([this.arguments]);
+  CoreView([this.arguments]);
 
   @override
   Widget build(BuildContext context) {

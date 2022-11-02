@@ -22,6 +22,7 @@ part './core/helpers/env.dart';
 part './core/helpers/local_storage.dart';
 
 part './core/routing/page_route.dart';
+part 'core/routing/view_navigator.dart';
 
 part './core/states/controller.dart';
 part './core/states/property.dart';
@@ -30,5 +31,5 @@ part './core/states/form_source.dart';
 part './core/states/listener.dart';
 part './core/states/update_form_source.dart';
 
-part './core/view/view.dart';
-part './core/view/view_navigator.dart';
+part './core/view/core_view.dart';
+part './core/view/core_widget.dart';
