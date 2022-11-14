@@ -30,17 +30,15 @@ class Router<T extends Enum> {
     bool canBack = false;
     bool canPop = previousMenu != null ? previousMenu.name == menu.name : menu.name == lastMenu?.name;
 
-    if (canPop) {
-      Get.until((route) {
-        newMenu = Menu(menu.name, route: route.settings.name);
+    Get.until((route) {
+      newMenu = Menu(menu.name, route: route.settings.name);
 
-        bool result = route.settings.name == previousMenu?.route;
-        if (previousMenu == null) result = canBack;
-        canBack = true;
+      bool result = route.settings.name == previousMenu?.route;
+      if (previousMenu == null) result = canBack;
+      canBack = true;
 
-        return result;
-      }, id: previousMenu?.name.index ?? menu.name.index);
-    }
+      return result;
+    }, id: previousMenu?.name.index ?? menu.name.index);
 
     debugBack(menu, newMenu);
     lastMenu = null;
