@@ -20,6 +20,7 @@ part './core/core_bootstrap.dart';
 part './core/helpers/booter.dart';
 part './core/helpers/env.dart';
 part './core/helpers/local_storage.dart';
+part './core/helpers/widget_controller.dart';
 
 part './core/routing/page_route.dart';
 part 'core/routing/view_navigator.dart';
@@ -33,3 +34,4 @@ part './core/states/update_form_source.dart';
 
 part './core/view/core_view.dart';
 part './core/view/core_widget.dart';
+part './core/view/controllable_view.dart';
