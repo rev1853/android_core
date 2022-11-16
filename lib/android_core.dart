@@ -34,4 +34,4 @@ part './core/states/update_form_source.dart';
 
 part './core/view/core_view.dart';
 part './core/view/core_widget.dart';
-part './core/view/controllable_view.dart';
+part 'core/view/controllable_widget.dart';
