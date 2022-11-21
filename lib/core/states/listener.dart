@@ -2,9 +2,7 @@ part of '../../android_core.dart';
 
 typedef FormlessListenerMixin<C extends CoreController, P extends CoreProperty?, D extends CoreDataSource?> = CoreListenerMixin<C, P, D, CoreFormSource?>;
 
-abstract class CoreListener {
-  Future onReady();
-}
+abstract class CoreListener {}
 
 mixin CoreListenerMixin<C extends CoreController, P extends CoreProperty?, D extends CoreDataSource?, F extends CoreFormSource?> {
   C get _state => Get.find<C>();

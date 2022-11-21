@@ -59,7 +59,6 @@ abstract class CoreController<P extends CoreProperty?, L extends CoreListener?, 
   void ready() {
     property?.ready();
     dataSource?.ready();
-    listener?.onReady();
     formSource?.ready();
   }
 
