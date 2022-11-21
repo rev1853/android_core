@@ -28,7 +28,7 @@ class Router<T extends Enum> {
   void back([Menu<T>? previousMenu]) {
     Menu<T> newMenu = menu;
     bool canBack = false;
-    bool canPop = previousMenu != null ? previousMenu.name == menu.name : menu.name == lastMenu?.name || menu.route != firstRouteOf(menu.name);
+    bool canPop = previousMenu != null ? previousMenu.name == menu.name : menu.name == lastMenu?.name || (lastMenu == null && menu.route != firstRouteOf(menu.name));
 
     if (canPop) {
       Get.until((route) {
