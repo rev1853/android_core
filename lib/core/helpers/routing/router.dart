@@ -29,9 +29,7 @@ class Router<T extends Enum> {
   void back([Menu<T>? previousMenu]) {
     Menu<T> newMenu = menu;
     bool canBack = false;
-    bool canPop = previousMenu != null ? previousMenu.name == menu.name : menu.name == lastMenu?.name || (lastMenu == null && menu.route != firstRouteOf(menu.name));
-    var a = lastRouteOf(menu.name);
-    var b = firstRouteOf(menu.name);
+    bool canPop = previousMenu != null ? previousMenu.name == menu.name : menu.name == lastMenu?.name || (lastMenu == null && Get.nestedKey(menu.name.index)!.currentState!.canPop());
 
     if (canPop) {
       Get.until((route) {
@@ -62,15 +60,6 @@ class Router<T extends Enum> {
       return true;
     }, id: menuName.index);
     return lastRoute;
-  }
-
-  String? firstRouteOf(T menuName) {
-    String? firstRoute;
-    Get.until((route) {
-      firstRoute = route.settings.name!;
-      return true;
-    }, id: menuName.index);
-    return firstRoute;
   }
 
   void debugBack(Menu<T>? from, Menu<T>? to) {
