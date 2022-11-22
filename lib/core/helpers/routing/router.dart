@@ -1,4 +1,5 @@
 import 'package:android_core/core/helpers/routing/menu.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Router<T extends Enum> {
@@ -38,7 +39,7 @@ class Router<T extends Enum> {
         if (previousMenu == null) result = canBack;
         canBack = true;
 
-        return result;
+        return true;
       }, id: previousMenu?.name.index ?? menu.name.index);
     } else {
       if (previousMenu == null && lastMenu == null) {
@@ -82,6 +83,6 @@ class Router<T extends Enum> {
   void printDebug(Menu<T>? from, Menu<T>? to, String middleFix) {
     String? fromString = from?.toString();
     String? toString = to?.toString();
-    print("[ROUTE] ${fromString ?? 'nowhere'} $middleFix to ${toString ?? 'nowhere'}");
+    debugPrint("[ROUTE] ${fromString ?? 'nowhere'} $middleFix to ${toString ?? 'nowhere'}");
   }
 }
