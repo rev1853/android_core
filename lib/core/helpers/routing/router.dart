@@ -30,6 +30,8 @@ class Router<T extends Enum> {
     Menu<T> newMenu = menu;
     bool canBack = false;
     bool canPop = previousMenu != null ? previousMenu.name == menu.name : menu.name == lastMenu?.name || (lastMenu == null && menu.route != firstRouteOf(menu.name));
+    var a = lastRouteOf(menu.name);
+    var b = firstRouteOf(menu.name);
 
     if (canPop) {
       Get.until((route) {
@@ -38,7 +40,6 @@ class Router<T extends Enum> {
         bool result = route.settings.name == previousMenu?.route;
         if (previousMenu == null) result = canBack;
         canBack = true;
-
         return true;
       }, id: previousMenu?.name.index ?? menu.name.index);
     } else {
