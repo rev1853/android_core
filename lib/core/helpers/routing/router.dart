@@ -38,7 +38,7 @@ class Router<T extends Enum> {
         bool result = route.settings.name == previousMenu?.route;
         if (previousMenu == null) result = canBack;
         canBack = true;
-        return true;
+        return result;
       }, id: previousMenu?.name.index ?? menu.name.index);
     } else {
       if (previousMenu == null && lastMenu == null) {
