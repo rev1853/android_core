@@ -15,18 +15,25 @@ class FunctionCatcher {
 
 class Test<T extends Function> {
   T Function(dynamic catcher) builder;
+  T func;
 
-  Test(this.builder);
+  Test({
+    required this.builder,
+    required this.func,
+  });
 
   T get run => builder(catcher);
 
-  FunctionCatcher catcher = FunctionCatcher((posArgs, namedArgs) {
-    print(posArgs);
-    print(namedArgs);
+  late FunctionCatcher catcher = FunctionCatcher((posArgs, namedArgs) {
+    var tes = Function.apply(func, posArgs, namedArgs);
+    print(tes);
   });
 }
 
 void main() {
-  Test<Function(String)> test = Test((catcher) => (arg) => catcher(arg));
-  test.run('tes');
+  Test<Function(String, {required String go})> test = Test(
+    builder: (catcher) => (arg, {required String go}) => catcher(arg, go: go),
+    func: (tes, {required String go}) => go,
+  );
+  test.run('tes', go: 'number 1');
 }

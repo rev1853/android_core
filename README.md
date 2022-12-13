@@ -13,5 +13,4 @@ provider.requestModifier = (request) async {
    return request;
 }
 ```
-
-
+- **Fetcher**, change fetcher parameter, must pass source parameter and requestCatcher for catch response source function
