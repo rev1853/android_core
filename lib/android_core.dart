@@ -23,7 +23,7 @@ part './core/helpers/booter.dart';
 part './core/helpers/env.dart';
 part './core/helpers/function_catcher.dart';
 part './core/helpers/local_storage.dart';
-part './core/helpers/widget_controller.dart';
+part 'core/helpers/deletable_controller.dart';
 
 part './core/routing/page_route.dart';
 part 'core/routing/view_navigator.dart';
