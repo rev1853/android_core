@@ -13,6 +13,8 @@ class DataHandler<T, F extends Function> implements Contract {
   void Function()? _onComplete;
   T Function(Response)? parser;
 
+  HandlerStatus _lastStatus = HandlerStatus.none;
+
   DataHandler({
     required this.fetcher,
     required T initialValue,
@@ -41,31 +43,47 @@ class DataHandler<T, F extends Function> implements Contract {
   bool get onProcess => _onProcess.value;
   set onProcess(bool value) => _onProcess.value = value;
 
+  HandlerStatus get lastStatus => _lastStatus;
+
   @override
   void onStart() {
     onProcess = true;
+    _lastStatus = HandlerStatus.start;
     _onStart?.call();
   }
 
   @override
   void onSuccess(Response response) {
     _data.value = parser?.call(response) ?? response.body;
+    _lastStatus = HandlerStatus.success;
     _onSuccess?.call(value);
   }
 
   @override
   void onFailed(Response response) {
+    _lastStatus = HandlerStatus.failed;
     _onFailed?.call(response);
   }
 
   @override
   void onError(String message) {
+    _lastStatus = HandlerStatus.error;
     _onError?.call(message);
   }
 
   @override
   void onComplete() {
     _onComplete?.call();
+    _lastStatus = HandlerStatus.complete;
     onProcess = false;
   }
+}
+
+enum HandlerStatus {
+  start,
+  success,
+  failed,
+  error,
+  complete,
+  none,
 }
