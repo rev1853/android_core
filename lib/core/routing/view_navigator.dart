@@ -4,6 +4,7 @@ abstract class ViewNavigator extends StatelessWidget {
   abstract GlobalKey<NavigatorState> navigatorKey;
   abstract String initialRoute;
   abstract List<ViewRoute> routes;
+  abstract List<NavigatorObserver> observers;
 
   // current arguments and settings
   Map _arguments = {};
@@ -14,6 +15,7 @@ abstract class ViewNavigator extends StatelessWidget {
     return Navigator(
       key: navigatorKey,
       initialRoute: initialRoute,
+      observers: observers,
       onGenerateRoute: (routeSettings) {
         _arguments = routeSettings.arguments == null ? {} : routeSettings.arguments as Map;
         return routes.firstWhereOrNull((element) => element.routeName == routeSettings.name);
