@@ -3,13 +3,13 @@ part of '../../android_core.dart';
 abstract class ViewNavigator extends StatelessWidget {
   abstract GlobalKey<NavigatorState> navigatorKey;
   abstract String initialRoute;
-  abstract List<NavigatorObserver> observers;
 
   // current arguments and settings
   Map _arguments = {};
   Map get arguments => _arguments;
 
   List<ViewRoute> routes = [];
+  List<NavigatorObserver> observers = [];
 
   @override
   Widget build(BuildContext context) {
