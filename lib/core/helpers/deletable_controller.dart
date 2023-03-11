@@ -1,6 +1,6 @@
 part of '../../android_core.dart';
 
-abstract class WidgetController extends GetxController {
+abstract class DeletableController extends GetxController {
   @protected
   String get prefixTag;
 

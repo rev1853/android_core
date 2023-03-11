@@ -2,68 +2,88 @@ part of '../../android_core.dart';
 
 ///
 ///type parameter
-/// [R] result type parameter, pass to onSuccess
 /// [F] fetcher's function type
-/// [D] Data type, data to handler
+/// [T] Data type, data to handler
 ///
-class DataHandler<D, R, F extends Function> implements Contract<R, D> {
+class DataHandler<T, F extends Function> implements Contract {
+  void Function()? _onStart;
+  void Function(T)? _onSuccess;
+  void Function(Response)? _onFailed;
+  void Function(String)? _onError;
+  void Function()? _onComplete;
+  T Function(Response)? parser;
+
+  HandlerStatus _lastStatus = HandlerStatus.none;
+
   DataHandler({
     required this.fetcher,
-    required D initialValue,
-    this.onStart,
-    this.onSuccess,
-    this.onError,
-    this.onFailed,
-    this.onComplete,
+    required T initialValue,
+    this.parser,
+    void Function()? onStart,
+    void Function(T)? onSuccess,
+    void Function(Response)? onFailed,
+    void Function(String)? onError,
+    void Function()? onComplete,
   }) {
-    fetcher.handler = this;
-    _data = Rx<D>(initialValue);
-  }
-  DataFetcher<F, R> fetcher;
-  late Rx<D> _data;
+    fetcher.contract = this;
+    _data = Rx<T>(initialValue);
 
-  D get value => _data.value;
+    _onStart = onStart;
+    _onSuccess = onSuccess;
+    _onFailed = onFailed;
+    _onError = onError;
+    _onComplete = onComplete;
+  }
+  DataFetcher<F> fetcher;
+  late Rx<T> _data;
+
+  T get value => _data.value;
 
   final Rx<bool> _onProcess = Rx<bool>(false);
   bool get onProcess => _onProcess.value;
   set onProcess(bool value) => _onProcess.value = value;
 
-  void start() {
+  HandlerStatus get lastStatus => _lastStatus;
+
+  @override
+  void onStart() {
     onProcess = true;
-    onStart?.call();
+    _lastStatus = HandlerStatus.start;
+    _onStart?.call();
   }
 
-  void success(R param) {
-    if (onSuccess != null) {
-      _data.value = onSuccess!(param);
-    }
+  @override
+  void onSuccess(Response response) {
+    _data.value = parser?.call(response) ?? response.body;
+    _lastStatus = HandlerStatus.success;
+    _onSuccess?.call(value);
   }
 
-  void failed(String param) {
-    onFailed?.call(param);
+  @override
+  void onFailed(Response response) {
+    _lastStatus = HandlerStatus.failed;
+    _onFailed?.call(response);
   }
 
-  void error(String param) {
-    onError?.call(param);
+  @override
+  void onError(String message) {
+    _lastStatus = HandlerStatus.error;
+    _onError?.call(message);
   }
 
-  void complete() {
-    onComplete?.call();
+  @override
+  void onComplete() {
+    _onComplete?.call();
+    _lastStatus = HandlerStatus.complete;
     onProcess = false;
   }
+}
 
-  @override
-  late Function()? onComplete;
-
-  @override
-  late Function(String)? onError;
-
-  @override
-  late Function(String)? onFailed;
-
-  @override
-  late Function()? onStart;
-
-  @override
-  late D Function(R)? onSuccess;
+enum HandlerStatus {
+  start,
+  success,
+  failed,
+  error,
+  complete,
+  none,
 }
