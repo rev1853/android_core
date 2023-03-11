@@ -17,7 +17,7 @@ class Router<T extends Enum> {
   void to(Menu<T> newMenu) {
     if (newMenu.route != null) {
       if (lastRouteOf(newMenu.name) != newMenu.route) {
-        Get.toNamed(newMenu.route!, id: newMenu.name.index);
+        Get.toNamed(newMenu.route!, id: newMenu.name.index, arguments: newMenu.arguments);
       }
     }
 
