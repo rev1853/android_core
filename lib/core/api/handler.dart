@@ -11,7 +11,8 @@ class DataHandler<T, F extends Function> implements Contract {
   void Function(Response)? _onFailed;
   void Function(String)? _onError;
   void Function()? _onComplete;
-  void Function(Response, Rx<T>)? parser;
+  T Function(Response)? parser;
+  void Function(T, Rx<T>)? binding;
 
   HandlerStatus _lastStatus = HandlerStatus.none;
 
@@ -19,6 +20,7 @@ class DataHandler<T, F extends Function> implements Contract {
     required this.fetcher,
     required T initialValue,
     this.parser,
+    this.binding,
     void Function()? onStart,
     void Function(T)? onSuccess,
     void Function(Response)? onFailed,
@@ -33,7 +35,7 @@ class DataHandler<T, F extends Function> implements Contract {
     _onFailed = onFailed;
     _onError = onError;
     _onComplete = onComplete;
-    parser ??= (response, data) => data.value = response.body;
+    binding ??= (data, rxVar) => rxVar.value = data;
   }
   DataFetcher<F> fetcher;
   late Rx<T> _data;
@@ -55,7 +57,9 @@ class DataHandler<T, F extends Function> implements Contract {
 
   @override
   void onSuccess(Response response) {
-    parser!.call(response, _data);
+    T data = parser!.call(response);
+    binding?.call(data, _data);
+
     _lastStatus = HandlerStatus.success;
     _onSuccess?.call(value);
   }
