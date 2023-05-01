@@ -1,27 +1,31 @@
 part of '../../android_core.dart';
 
 ///
-/// type parameters
-/// [T] => param for Function
-/// [S] =>param for result type
+/// class to interact with service, you have to set the source
+/// `T` param for Function
+/// `S` param for result type
 ///
 class DataFetcher<T extends Function> {
   late Contract contract;
   late final FunctionCatcher _functionCatcher = FunctionCatcher(_run);
 
   ///
-  /// [source] must return [Future<Response>]
+  /// `source` must return `Future<Response>`
   ///
   T source;
 
   ///
-  /// you have return catcher as called function [catcher(args)]
+  /// you have return catcher as callback function e.g `(catcher) => catcher(args)`
   ///
   T Function(dynamic catcher) requestCatcher;
 
   DataFetcher({required this.requestCatcher, required this.source});
 
+  ///
+  /// run the catcher, the source method will called to get data from service
+  ///
   T get run => requestCatcher(_functionCatcher);
+
   void _run(List<dynamic> posArgs, Map<Symbol, dynamic> namedArgs) async {
     contract.onStart();
     try {

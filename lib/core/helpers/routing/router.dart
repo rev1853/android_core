@@ -14,6 +14,9 @@ class Router<T extends Enum> {
   Menu<T> get menu => _menu.value;
   Menu<T>? lastMenu;
 
+  ///
+  /// go to specific menu
+  ///
   void to(Menu<T> newMenu) {
     if (newMenu.route != null) {
       if (lastRouteOf(newMenu.name) != newMenu.route) {
@@ -26,6 +29,9 @@ class Router<T extends Enum> {
     _menu.value = newMenu;
   }
 
+  ///
+  /// back to previous page, you can specify the page by passing `Menu<T>` argument
+  ///
   void back([Menu<T>? previousMenu]) {
     Menu<T> newMenu = menu;
     bool canBack = false;
@@ -53,6 +59,9 @@ class Router<T extends Enum> {
     _menu.value = newMenu;
   }
 
+  ///
+  /// get last route of navigation
+  ///
   String? lastRouteOf(T menuName) {
     String? lastRoute;
     Get.until((route) {

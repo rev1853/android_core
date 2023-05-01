@@ -1,9 +1,9 @@
 part of '../../android_core.dart';
 
 ///
-///type parameter
-/// [F] fetcher's function type
-/// [T] Data type, data to handler
+/// A class for handling data from `DataFetcher<F>`
+/// `F` fetcher's function type
+/// `T` Data type, data to handler
 ///
 class DataHandler<T, F extends Function> implements Contract {
   void Function()? _onStart;
@@ -11,8 +11,12 @@ class DataHandler<T, F extends Function> implements Contract {
   void Function(Response)? _onFailed;
   void Function(String)? _onError;
   void Function()? _onComplete;
+
   T Function(Response)? parser;
   void Function(T, Rx<T>)? binding;
+
+  DataFetcher<F> fetcher;
+  late Rx<T> _data;
 
   HandlerStatus _lastStatus = HandlerStatus.none;
 
@@ -37,8 +41,6 @@ class DataHandler<T, F extends Function> implements Contract {
     _onComplete = onComplete;
     binding ??= (data, rxVar) => rxVar.value = data;
   }
-  DataFetcher<F> fetcher;
-  late Rx<T> _data;
 
   T get value => _data.value;
 

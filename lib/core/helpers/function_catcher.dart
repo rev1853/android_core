@@ -3,7 +3,7 @@ part of '../../android_core.dart';
 typedef _Catcher = dynamic Function(List positionalArgs, Map<Symbol, dynamic> namedArgs);
 
 class FunctionCatcher {
-  _Catcher _onCall;
+  final _Catcher _onCall;
 
   FunctionCatcher(this._onCall);
 
